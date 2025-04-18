@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 
 router.put('/login', (req, res) => {
     const {username, password} = req.body;
