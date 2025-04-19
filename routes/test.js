@@ -35,18 +35,16 @@ router.get('/candle', (req, res) => {
     }
     const { code, year, month, day, hour } = req.query;
     const data = orderBook.get(code);
+    console.log(data)
 
     if (!data) {
         return res.status(400).json({ error: 'Code not found' });
     }
-    const start = DateTime.fromObject({
-        year: Number(year),
-        month: Number(month),
-        day: Number(day),
-        hour: Number(hour),
-        zone: 'Asia/Tokyo'
-    }).toJSDate();
+    const start = new Date(year, month - 1, day, hour, 0, 0);
     const end = new Date(start.getTime() + 60 * 60 * 1000 - 1);
+    console.log(data[0].time)
+    console.log(start)
+    console.log(end)
     const prices = data
         .filter(entry => entry.time >= start && entry.time <= end)
         .map(entry => entry.price);

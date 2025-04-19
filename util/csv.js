@@ -1,6 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parser');
-const { DateTime } = require('luxon');
+
 
 const orderBook = new Map();
 
@@ -10,7 +10,7 @@ function loadCSV() {
             .pipe(csv(['time', 'code', 'price']))
             .on('data', (row) => {
                 const code = row.code;
-                const time = DateTime.fromISO(row.time, { zone: 'Asia/Tokyo' }).toJSDate();
+                const time = new Date(row.time.substring(0, 19));
                 const price = parseInt(row.price, 10);
 
                 if (!orderBook.has(code)) {
